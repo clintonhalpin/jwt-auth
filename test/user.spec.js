@@ -47,12 +47,11 @@ describe("API", function(){
       };
 
       request.post(options, function(error, response, body) {
-        var JSONRes = JSON.parse(response.body);
 
         var authorizedURL = {
           url: url + 'api/protected',
           headers: {
-            Authorization: 'Bearer ' + JSONRes.id_token
+            Authorization: 'Bearer ' + JSON.parse(body).id_token
           }
         }
 
