@@ -5,7 +5,6 @@ var express = require('express'),
 
 var app = module.exports = express.Router();
 
-// XXX: This should be a database of users :).
 var users = [{
   id: 1,
   username: 'gonto',
@@ -52,3 +51,8 @@ app.post('/sessions/create', function(req, res) {
     id_token: createToken(user)
   });
 });
+
+
+exports.createSession = function(req, res){
+
+}

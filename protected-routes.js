@@ -10,7 +10,6 @@ var jwtCheck = jwt({
 });
 
 app.use('/api/protected', jwtCheck);
-
-app.get('/api/protected/random-quote', function(req, res) {
-  res.status(200).send(quoter.getRandomOne());
+app.get('/api/protected/', function(req, res) {
+  res.status(200).send('Logged In Yall!');
 });

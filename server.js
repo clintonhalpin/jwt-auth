@@ -4,17 +4,11 @@ var logger          = require('morgan'),
     express         = require('express'),
     errorhandler    = require('errorhandler'),
     cors            = require('cors'),
-    dotenv          = require('dotenv'),
     bodyParser      = require('body-parser');
 
 var app = express();
 
-dotenv.load();
-
-// Parsers
-// old version of line
-// app.use(bodyParser.urlencoded());
-// new version of line
+app.set('port', process.env.PORT || 3001);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
@@ -35,11 +29,10 @@ if (process.env.NODE_ENV === 'development') {
 app.use(require('./anonymous-routes'));
 app.use(require('./protected-routes'));
 app.use(require('./user-routes'));
-app.set('port', process.env.PORT || 3001);
 
 app.get('/', function(res, res){
   res.status(200).send('Light the fires and kick the tires');
-})
+});
 
 var server = http.createServer(app);
 var boot = function () {
