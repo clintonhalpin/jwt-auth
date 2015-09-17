@@ -1,14 +1,14 @@
 {
-  "name": "in-memory-todo",
+  "name": "jwt-auth",
   "version": "0.1.0",
   "description": "An In memory todo for Logged in and not Logged in users",
   "main": "server.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --reporter spec"
+    "test": "PORT=9001 ./node_modules/.bin/mocha --reporter spec"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/auth0/in-memory-todo.git"
+    "url": "https://github.com/clintonhalpin/jwt-auth.git"
   },
   "keywords": [
     "todo",
@@ -17,12 +17,12 @@
     "jwt",
     "auth0"
   ],
-  "author": "Martin Gontovnikas",
+  "author": "clintonhalpin@gmail.com",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/auth0/in-memory-todo/issues"
+    "url": "https://github.com/clintonhalpin/jwt-auth/issues"
   },
-  "homepage": "https://github.com/auth0/in-memory-todo",
+  "homepage": "https://github.com/clintonhalpin/jwt-auth/",
   "dependencies": {
     "body-parser": "^1.6.5",
     "compression": "^1.0.11",

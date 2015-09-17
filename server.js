@@ -35,9 +35,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use(require('./anonymous-routes'));
 app.use(require('./protected-routes'));
 app.use(require('./user-routes'));
-
-var port = process.env.PORT || 3001;
-
+app.set('port', process.env.PORT || 3001);
 
 app.get('/', function(res, res){
   res.status(200).send('Light the fires and kick the tires');
@@ -45,8 +43,8 @@ app.get('/', function(res, res){
 
 var server = http.createServer(app);
 var boot = function () {
-  server.listen(port, function(){
-    console.info('Express server listening on port ' + port);
+  server.listen(app.get('port'), function(){
+    console.info('Express server listening on port ' + app.get('port'));
   });
 }
   
@@ -61,5 +59,5 @@ else {
   console.info('Running app as a module')
   exports.boot = boot;
   exports.shutdown = shutdown;
-  exports.port = port;
+  exports.port = app.get('port');
 }
