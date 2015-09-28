@@ -1,10 +1,10 @@
-var logger          = require('morgan'),
-    cors            = require('cors'),
-    http            = require('http'),
-    express         = require('express'),
-    errorhandler    = require('errorhandler'),
-    cors            = require('cors'),
-    bodyParser      = require('body-parser');
+var logger = require('morgan'),
+cors = require('cors'),
+http = require('http'),
+express = require('express'),
+errorhandler = require('errorhandler'),
+cors = require('cors'),
+bodyParser = require('body-parser');
 
 var app = express();
 
@@ -26,18 +26,18 @@ if (process.env.NODE_ENV === 'development') {
   app.use(errorhandler())
 }
 
-app.use(require('./anonymous-routes'));
-app.use(require('./protected-routes'));
-app.use(require('./user-routes'));
+app.use(require('./routes/anonymous-routes'));
+app.use(require('./routes/protected-routes'));
+app.use(require('./routes/user-routes'));
 
 app.get('/', function(res, res){
   res.status(200).send('Light the fires and kick the tires');
 });
 
 var server = http.createServer(app);
-var boot = function () {
+var boot = function (quiet) {
   server.listen(app.get('port'), function(){
-    console.info('Express server listening on port ' + app.get('port'));
+      console.info('Express server listening on http://localhost:%d', app.get('port'));
   });
 }
   
@@ -49,7 +49,6 @@ if (require.main === module) {
   boot();
 }
 else {
-  console.info('Running app as a module')
   exports.boot = boot;
   exports.shutdown = shutdown;
   exports.port = app.get('port');

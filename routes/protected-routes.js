@@ -1,7 +1,7 @@
 var express = require('express'),
-    jwt     = require('express-jwt'),
-    config  = require('./config'),
-    quoter  = require('./quoter');
+    jwt = require('express-jwt'),
+    config = require('./../config'),
+    quoter = require('./quoter');
 
 var app = module.exports = express.Router();
 

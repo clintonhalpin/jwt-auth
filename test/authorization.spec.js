@@ -4,7 +4,7 @@ var boot = require('../server').boot;
 var port = require('../server').port;
 var shutdown = require('../server').shutdown;
 
-describe("API", function(){
+describe("Authorization", function(){
     var url = "http://localhost:" + port + "/";
     before(function () {
       boot();

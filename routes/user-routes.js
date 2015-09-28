@@ -1,7 +1,7 @@
 var express = require('express'),
-    _       = require('lodash'),
-    config  = require('./config'),
-    jwt     = require('jsonwebtoken');
+    _ = require('lodash'),
+    config = require('./../config'),
+    jwt = require('jsonwebtoken');
 
 var app = module.exports = express.Router();
 
@@ -34,25 +34,29 @@ app.post('/users', function(req, res) {
 });
 
 app.post('/sessions/create', function(req, res) {
-  if (!req.body.username || !req.body.password) {
-    return res.status(400).send("You must send the username and the password");
-  }
-
   var user = _.find(users, {username: req.body.username});
-  if (!user) {
-    return res.status(401).send("The username or password don't match");
+
+  var postRequest = function(){
+    var status, send;
+
+    if(!req.body.username || !req.body.password) {
+      status = 400;
+      send = 'You must send the username and the password';
+    } else if( !user || user.password !== req.body.password ) {
+      status = 401;
+      send = "The username or password don't match";
+    } else {
+      status = 201;
+      send = {
+        id_token: createToken(user)
+      }
+    }
+
+    return {
+      status: status,
+      send: send
+    }
   }
 
-  if (user.password !== req.body.password) {
-    return res.status(401).send("The username or password don't match");
-  }
-
-  res.status(201).send({
-    id_token: createToken(user)
-  });
+  res.status(postRequest().status).send(postRequest().send);
 });
-
-
-exports.createSession = function(req, res){
-
-}
