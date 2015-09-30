@@ -26,7 +26,6 @@ if (process.env.NODE_ENV === 'development') {
   app.use(errorhandler())
 }
 
-app.use(require('./routes/anonymous-routes'));
 app.use(require('./routes/protected-routes'));
 app.use(require('./routes/user-routes'));
 

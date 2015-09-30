@@ -10,16 +10,16 @@ describe("Authorization", function(){
       boot();
     });
 
-    it("should fail POST to sessions/create", function(done) {
-      request.post(url + 'sessions/create', function(error, response, body) {
+    it("should fail POST to authorization/sign-in", function(done) {
+      request.post(url + 'authorization/sign-in', function(error, response, body) {
         expect(response.statusCode).to.equal(400);
         done();
       });
     });
 
-    it("should succeed POST sessions/create with valid credentials", function(done) {
+    it("should succeed POST authorization/sign-in with valid credentials", function(done) {
       var options = {
-        url: url + 'sessions/create',
+        url: url + 'authorization/sign-in',
         form: {
           username: 'gonto',
           password: 'gonto'
@@ -33,9 +33,9 @@ describe("Authorization", function(){
 
     });
 
-    it("should succeed POST to users with valid credentials", function(done) {
+    it("should succeed POST to authorization/sign-up with valid credentials", function(done) {
       var options = {
-        url: url + 'users',
+        url: url + 'authorization/sign-up',
         form: {
           username: 'yolo',
           password: 'yolo'
@@ -51,7 +51,7 @@ describe("Authorization", function(){
 
     it("should succeed GET api/protected with valid credentials", function(done) {
       var options = {
-        url: url + 'sessions/create',
+        url: url + 'authorization/sign-in',
         form: {
           username: 'gonto',
           password: 'gonto'

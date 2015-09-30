@@ -11,29 +11,40 @@ var users = [{
   password: 'gonto'
 }];
 
-function createToken(user) {
-  return jwt.sign(_.omit(user, 'password'), config.secret, { expiresInMinutes: 60*5 });
-}
+var createToken = require('./jwtMiddleware').sign;
 
-app.post('/users', function(req, res) {
-  if (!req.body.username || !req.body.password) {
-    return res.status(400).send("You must send the username and the password");
-  }
-  if (_.find(users, {username: req.body.username})) {
-   return res.status(400).send("A user with that username already exists");
-  }
+app.post('/authorization/sign-up', function(req, res) {
 
-  var profile = _.pick(req.body, 'username', 'password', 'extra');
-  profile.id = _.max(users, 'id').id + 1;
+    var postRequest = function() {
+        var status, send;
 
-  users.push(profile);
+        if(!req.body.username || !req.body.password) {
+          status = 400;
+          send = 'Bad request';
+        } else if( _.find(users, {username: req.body.username})) {
+          status = 400;
+          send = "User already exists";
+        } else {
+            var profile = _.pick(req.body, 'username', 'password', 'extra');
+            profile.id = _.max(users, 'id').id + 1;
+            users.push(profile);
 
-  res.status(201).send({
-    id_token: createToken(profile)
-  });
+            console.log(createToken(profile));
+
+            status = 201;
+            send = {
+                id_token: createToken(profile)
+            }
+        }
+        return {
+          status: status,
+          send: send
+        }
+    }
+    res.status(postRequest().status).send(postRequest().send);
 });
 
-app.post('/sessions/create', function(req, res) {
+app.post('/authorization/sign-in', function(req, res) {
   var user = _.find(users, {username: req.body.username});
 
   var postRequest = function(){
@@ -41,10 +52,10 @@ app.post('/sessions/create', function(req, res) {
 
     if(!req.body.username || !req.body.password) {
       status = 400;
-      send = 'You must send the username and the password';
+      send = 'Bad request';
     } else if( !user || user.password !== req.body.password ) {
       status = 401;
-      send = "The username or password don't match";
+      send = "Username or password don't match, or don't exist";
     } else {
       status = 201;
       send = {
